@@ -1,0 +1,57 @@
+
+
+<h3><% if flash[:message] %>
+  <%= flash[:message] %>
+<% end %></h3>
+  <h1>How do you spend your time?</h1>
+  <a href='/timesheet'>Back to All Posts</a>
+  <body>
+  <fieldset class = "add">
+    <form action='/add_entry' method='post'> <!--this will be the route path for rails while the 'name' property below-->
+    <br>
+      <label for="date">Date:</label>
+      <input class="button" type="date" name="date" value="YYYY-MM-DD"> <!--name property is the params[:date]-->
+        <p>General Responsibilities: </p>
+          <dl>
+            <dt>
+              <label for="work">Work</label>
+              <input class='button' type='number' name='work' placeholder="in minutes" required>
+            </dt>
+            <dt>
+              <label for="sleep">Sleep</label>
+              <input class='button' type='number' name='sleep' placeholder="in minutes" required>
+            </dt>
+            <dt>
+              <label for='commute'>Commute to Work</label>
+              <input class='button' type='number' name='commute_to' placeholder="in minutes" required>
+            </dt>
+            <dt>
+              <label for='reverse_commute'>Commute from Work</label>
+              <input class='button' type='number' name='commute_from' placeholder="in minutes" required>
+            </dt>
+            <dt>
+              <label for='meals'>Preparing Meals</label>
+              <input class='button' type='number' name='meal_prep' placeholder="in minutes" required>
+            </dt>
+            <dt>
+              <label for='eating_meals'>Eating Meals</label>
+              <input class='button' type='number' name='eating_meals' placeholder="in minutes" required>
+            </dt>
+          </dl>
+          <p>Additional Activities: </p>
+          <p><em>(Gym, Hobbies, Music Lessons etc..)</p>
+            <dt>
+              <input class='text' type='text' name='hobby1' placeholder="Custom Name">
+              <input class='button' type='number' name='hobby1time' placeholder='0'>
+            </dt>      
+           
+              <button type='text' class='button'>Submit</button>
+            </dl>
+      </form>
+    </fieldset>  
+    <br>
+  </body>
+
+  <footer>
+
+  </footer>

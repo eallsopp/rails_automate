@@ -1,0 +1,24 @@
+
+<p class="user-message"><% if session[:message] %>
+  <%= session.delete(:message) %>
+<% end %></p>
+
+<a href='/timesheet'>Back to Main Page</a>
+<body>
+  <h2>Edit Your Activities for <em><%=@date%></em></h2>
+    <fieldset class="edit">
+      <form class="edit" method ='post' action='/edit_post/<%=@date%>'>
+        <br />
+        <p>Everyday Events for <%=@date%></p>
+        <%@entries.each do |entry|%>
+         <dt>
+            <label for="<%=entry['activity_name'] %>"><%=entry['activity_name'] %></label>
+            <input class='button' type='number' name='<%=entry['activity_name'] %>' placeholder="<%= entry['minutes_used'] %>">
+          </dt>
+        <%end%>
+        <input type='submit' value='Update Post'>
+      </form>
+      <a href="/timesheet">Back to Timesheet</a>
+        </fieldset>
+      <br>
+  </body>

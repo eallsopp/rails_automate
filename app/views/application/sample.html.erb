@@ -1,0 +1,38 @@
+  <body>
+    <h1> How Do You Spend Your Time ?</h1>
+    <a href='/new_entry'>Add Entry</a>
+  <br>
+  <p>Insert the post here</p>
+  <%=@entry%>
+<!--add in the entries.each components of the contents so then
+the edit post and delete post funcationality is available
+the entries here are dependent on the user being logged in
+which will dictate how the DB parameters extract data
+the action for delete post would reference a users entire post for that day-->
+
+<!--below I would insert the already registered params ID to the user-->
+  <a href='/edit_post'>Edit <-- this need to reference a param from DB</a>
+  <br/>
+    <form method='post' action='/delete_post' style='display:inline'>
+      <input type='submit' value='Delete Post' />
+    </form>
+  <br>
+    <p>Activity Table</p>
+
+  <br>
+    <%== line_chart @chart  %>
+
+  <br>
+    <div class ="pie_totals">Average Hours Per Activity Per Day</div>
+    <%== pie_chart @daily_activity_hours, donut: true %>
+    
+  <br>
+    <div class ="hours_daily">Average Hours Used Per Day</div>
+    <%== pie_chart @hours_used, donut: true %> 
+  <br>
+      <div class="total_minutes">You have an average of <strong><%=@average_minutes_remaining%></strong> minutes remaining each day.</div>
+      <div class="total_minutes">That is <strong><%=@hours_remaining%></strong> hours.  Go get after it!</div>
+
+  <br>
+    <div class ="pie_totals">Total Minutes Spent on Each Logged Activity</div>
+    <%== column_chart @total_minutes, donut: true %>

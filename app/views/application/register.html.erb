@@ -1,0 +1,34 @@
+    
+    <%= link_to 'Home', homepage_path %> 
+    
+    <form action="/register" method="post">
+      <fieldset class="login">
+        <dl>
+         <dt>
+            <label for='firstName'>First Name:</label>
+            <input class='text' type='text' name='firstName' placeholder='First Name'>
+          </dt>
+           <dt>
+            <label for='email'>Email:</label>
+            <input class='text' type='text' name='eMail' placeholder='E-Mail'>
+          </dt>
+          <dt>
+            <label for='username'>Username:</label>
+            <input class='text' type='text' name='username' placeholder='Username' >
+          </dt>
+          
+          <dt>
+            <label for='password'>Password:</label>
+            <input class='text' type='password' name='password' placeholder='Password' >
+          </dt>
+
+          <dt>
+            <label for='confirm'>Confirm Password:</label>
+            <input class='text' type='password' name='confirmPW' placeholder='Confirm Password' >
+          </dt>
+        </dl>
+
+        <button type='submit' class='button'>Submit</button>
+      </fieldset>
+
+    </form>
