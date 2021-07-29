@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   # skip_before_action :login_required
 
-  layout '/header', only: [:index, :sample]
+  layout '/header', only: [:index, :sample, :login]
 
   
   def login_required
@@ -45,6 +45,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sample
+    test_user = 'my friend'
     @chart = sample_chart
 
     sample_minutes = sample_chart.map { |hash| hash[:data].values.map(&:to_i).inject(:+) }.flatten
@@ -62,8 +63,12 @@ class ApplicationController < ActionController::Base
     @daily_activity_hours = sample_chart.map do |hash|
       [hash[:name], ((hash[:data].values.map(&:to_i).inject(:+) / sample_entries).round(2).to_f./60.round(2))]
     end
-    
+
     render 'application/sample'
+  end
+
+  def reset_password
+    redirect_to login_path, notice: "A password change of request email has been sent."
   end
 
   def edit_post
@@ -122,6 +127,10 @@ class ApplicationController < ActionController::Base
   def self.find(id)
     entry_hash = connection.execute('SELECT * FROM entries WHERE entries.user_id = ? '), id, get_date_by_id(id)
    
+  end
+
+  def new_user
+    
   end
 
   private

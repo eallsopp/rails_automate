@@ -11,6 +11,12 @@
 <p>--------------------------------above is the Header Layout </p>
 
 <body>
+    <% flash.each do |type, msg| %>
+    <div class='alert alert-info'>
+      <p><%= msg %></p>
+    </div>
+  <% end %>
+
   <%= yield%>
 </body>
 <%# partials go into views/__name of class here__ %>

@@ -4,20 +4,23 @@ Rails.application.routes.draw do
   
   get '/', to: redirect('/homepage');
 
-  post '/login', to: 'sessions#new'
-  get '/timesheet', to: 'sessions#logged_in'
-  get '/logout', to: 'sessions#destroy'
+  post '/login', to: 'session#new'
+  get '/timesheet', to: 'session#logged_in'
+  get '/logout', to: 'session#destroy'
 
   get '/homepage', to: 'application#index'
-  get '/register', to: 'application#register'
   get '/login', to: 'application#login'
+  get '/reset_password', to: 'application#reset_password'
+  get '/new_user', to: 'user#new'
 
   get '/sample', to: 'application#sample'
 
   get '/new_entry', to: 'application#new_entry'
   get '/edit_post/:id', to: 'application#edit_post'
+  
+  get '/register', to: 'application#register'
+  post '/register', to: 'application#new_user'
 
-  post '/register', to: 'users#new'
   post '/add_entry', to: 'application#add_entry'
   post '/edit_post/:date', to: 'application#update_entry'
   post '/delete_post', to: 'application#destroy'

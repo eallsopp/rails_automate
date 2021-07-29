@@ -1,2 +1,2 @@
-1,'testuser',123456
-2,'othertestuser',654321
+1,'test','user',test@email.com,tester,123456,123456
+2,'other','testuser',testuser@gmail.com,testuser,654321,654321

@@ -22,14 +22,20 @@ gem 'minitest'
 gem 'bcrypt'
 gem 'chartkick'
 
-group :development, :test do
-  gem 'pry'
-
-  # Access an IRB console on exception pages or by using <%= console %> in views
+group :development do 
+# Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
+end
 
+group :development, :test do
+  gem 'pry'  
+  
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'shoulda'
+  gem 'faker'
+  gem 'factory_bot'
 end
 
 gem "webrick", "~> 1.7"

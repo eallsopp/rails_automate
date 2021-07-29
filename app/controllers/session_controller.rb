@@ -2,18 +2,11 @@ class Sessions < ActiveRecord::Base
   # skip_before_action :login_required, :only => [:new, :create]
 
   def new
-    user = User.find_by_id(params[:username])
-    if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      redirect_to logged_in_path, :notice => "Welcome back, #{user.username}"
-    else
-      flash.now.alert = "Invalid email or password"
-      render 'new'
-    end
+   
   end
 
   def logged_in
-    
+
     redirect 'timesheet'
   end
 
