@@ -1,3 +1,6 @@
+# get data from models User.whatever
+
+
 class ApplicationController < ActionController::Base
   #prevent CSRF attacks by raising exception
   #for apis, using :null_session instead
@@ -5,8 +8,8 @@ class ApplicationController < ActionController::Base
   # skip_before_action :login_required
 
   layout '/header', only: [:index, :sample, :login]
-
   
+
   def login_required
     if !logged_in?
       redirect_to login_path :notice => 'Log in to edit or delete content.'
@@ -45,23 +48,28 @@ class ApplicationController < ActionController::Base
   end
 
   def sample
-    test_user = 'my friend'
+    @user = 'my friend'
     @chart = sample_chart
 
-    sample_minutes = sample_chart.map { |hash| hash[:data].values.map(&:to_i).inject(:+) }.flatten
-    sample_entries = sample_chart[0][:data].size
-    @total_minutes_logged = sample_chart.map {|hash| hash[:data].values.map(&:to_i).inject(:+)}.inject(:+)
-
-    @minutes_per_day =  sample_minutes.inject(:+) / sample_entries
-    # @average_hours_used = minutes_to_hours(@minutes_per_day)
-    @average_minutes_remaining = (24*60) - @minutes_per_day
-    # @hours_remaining = minutes_to_hours(@average_minutes_remaining)
+    #number of minutes
+    @sample_minutes = @chart.map { |hash| hash[:data].values.map(&:to_i).inject(:+) }.flatten
     
-    chart_names = sample_chart.map {|hash| hash[:name]}
-    chart_values = sample_minutes
+    #number of entries
+    @sample_entries = @chart[0][:data].size
+    
+    #collected value of minutes for logged entries
+    @total_minutes_logged = @chart.map {|hash| hash[:data].values.map(&:to_i).inject(:+)}.inject(:+)
+
+    @minutes_per_day =  @sample_minutes.inject(:+) / @sample_entries
+    @average_hours_used = minutes_to_hours(@minutes_per_day)
+    @average_minutes_remaining = (24*60) - @minutes_per_day
+    @hours_remaining = minutes_to_hours(@average_minutes_remaining)
+    
+    chart_names = @chart.map {|hash| hash[:name]}
+    chart_values = @sample_minutes
 
     @daily_activity_hours = sample_chart.map do |hash|
-      [hash[:name], ((hash[:data].values.map(&:to_i).inject(:+) / sample_entries).round(2).to_f./60.round(2))]
+      [hash[:name], ((hash[:data].values.map(&:to_i).inject(:+) / @sample_entries).round(2).to_f/60.round(2))]
     end
 
     render 'application/sample'
@@ -71,12 +79,15 @@ class ApplicationController < ActionController::Base
     redirect_to login_path, notice: "A password change of request email has been sent."
   end
 
-  def edit_post
-    # same as with show_post the params for id will be sessioned via the login
-    #the date will be extracted from the id which is get_date_by_id
-    @date = get_date_by_id(params['id'])
-    @entries = find_entry_by_id(params['id'])
-    render 'application/edit_post'
+  def edit_post  
+    if logged_in?
+      @date = get_date_by_id(params['id'])
+      @entries = find_entry_by_id(params['id'])
+      render 'application/edit_post/:id/:date'
+    else 
+      flash[:message] = 'Sorry, you cannot edit the sample page.'
+      redirect_to sample_path
+    end
   end
 
   def new_entry
@@ -129,9 +140,11 @@ class ApplicationController < ActionController::Base
    
   end
 
-  def new_user
-    
-  end
+
+
+
+
+
 
   private
   def sample_chart
@@ -145,6 +158,36 @@ class ApplicationController < ActionController::Base
       { name: 'Side Hustle', data: {'2020-12-16': '75', '2020-12-17': '60', '2020-11-29': "90"}},
       { name: 'Making Meals', data: {'2020-12-16': '60', '2020-12-17': '50', '2020-11-29': "45"}}
     ]
+  end
+
+  def test_values(responsibilities)
+    responsibilities.keep_if { |_,v| v != '' && v.to_i >= 0}
+  end
+
+  def total_minutes(days)
+    days*24*60
+  end
+
+  def minutes_to_hours(minutes)
+    (minutes.to_f / 60.00).round(2)
+  end
+
+  def minutes_used(session_id)
+    return 0 unless user_has_entry?(session_id)
+    total_logged_minutes(session_id) / days_logged(session_id)
+  end
+
+  def average_minutes_remaining(session_id)
+    return total_minutes(1) unless user_has_entry?(session_id)
+    (total_minutes(days_logged(session_id)) - total_logged_minutes(session_id)) / days_logged(session_id)
+  end
+
+  def sample_pie_chart(arr1, arr2)
+    donut = Hash.new
+    arr1.each_with_index { |entry, idx|
+      donut[entry] = arr2[idx]
+    }
+    donut
   end
 
   def self.connection

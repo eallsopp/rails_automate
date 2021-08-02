@@ -1,17 +1,24 @@
+# conroller gets data, then saves data in model, which the controller can then generate a view
+
 class Sessions < ActiveRecord::Base
   # skip_before_action :login_required, :only => [:new, :create]
 
-  def new
-   
+  def valid_login
+
+    if User.logged_in?
+      redirect '/timesheet/:username'
+    else 
+      flash[:message] = 'Username or password incorrect.  Please try again.'
+      redirect_to login_path
+    end
   end
 
-  def logged_in
+  def test_session?
 
-    redirect 'timesheet'
   end
 
   def create
-    
+    session[:current_user_id] = @user.id
   end
 
   def index

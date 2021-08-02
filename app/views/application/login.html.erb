@@ -1,22 +1,14 @@
 
+<%= form_tag url_for(action: 'login'), method: 'post' do %> 
+    <%= label_tag 'Username' %>
+    <%= text_field_tag 'username' %>
+    <br /><br />
 
-<form action="/login" method="post">
-  <fieldset class="login">
-    <dl>
-      <dt>
-        <label for='username'>Username:</label>
-        <input class='text' type='text' name='username' placeholder='Username' required>
-      </dt>
-        
-      <dt>
-        <label for='password'>Password:</label>
-        <input class='text' type='password' name='password' placeholder='Password' required>
-      </dt>
+    <%= label_tag 'Password' %>
+    <%= text_field_tag 'password'%>
+    <br /><br />
 
-    </dl>
-
-    <%= link_to 'Back', homepage_path %>
-    <button type='Submit' class="button">Submit</>
-  </fieldset>
+  <%= link_to 'Back', homepage_path %>
+  <%= submit_tag 'Submit New User'%>
+<% end %>
     <%=link_to 'Forgot Password?', reset_password_path%>
-</form>

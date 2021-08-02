@@ -1,8 +1,7 @@
   <body>
-    <h1> How Do You Spend Your Time</h1>
-    <a href='/new_entry'>Add Entry</a>
+    <h1> How Do You Spend Your Time <%= @user%></h1>
+    <%= link_to 'Add New Entry', new_entry_path %>   <%= link_to 'Edit Entries', edit_post_path%> <%= link_to 'Delete Entry', delete_post_path%>
   <br>
-  <p>Insert the post here</p>
   <%=@entry%>
 <!--add in the entries.each components of the contents so then
 the edit post and delete post funcationality is available
@@ -11,28 +10,37 @@ which will dictate how the DB parameters extract data
 the action for delete post would reference a users entire post for that day-->
 
 <!--below I would insert the already registered params ID to the user-->
-  <a href='/edit_post'>Edit <-- this need to reference a param from DB</a>
   <br/>
     <form method='post' action='/delete_post' style='display:inline'>
       <input type='submit' value='Delete Post' />
-    </form>
+    </form> <p> <-- To be replaced with icons for links above> </p>
   <br>
-    <p>Activity Table</p>
+    <p>Activity Table <%=@chart%></p>
 
   <br>
-    <%== line_chart @chart  %>
+    <%= line_chart  [ { name: 'Work', data: {'2020-12-16': '500', '2020-12-17': '480', '2020-11-29': "200"}},
+      { name: 'Sleep', data: {'2020-12-16': '420', '2020-12-17': '450', '2020-11-29': "480"}},
+      { name: 'Eating Meals', data: {'2020-12-16': '75', '2020-12-17': '55', '2020-11-29': "70"}},
+      { name: 'Commute To', data: {'2020-12-16': '10', '2020-12-17': '9', '2020-11-29': "8"}},
+      { name: 'Commute From', data: {'2020-12-16': '10', '2020-12-17': '12', '2020-11-29': "14"}},
+      { name: 'Guitar', data: {'2020-12-16': '60', '2020-12-17': '60', '2020-11-29': "60"}},
+      { name: 'Video Games', data: {'2020-12-16': '60', '2020-12-17': '90', '2020-11-29': "30"}},
+      { name: 'Side Hustle', data: {'2020-12-16': '75', '2020-12-17': '60', '2020-11-29': "90"}},
+      { name: 'Making Meals', data: {'2020-12-16': '60', '2020-12-17': '50', '2020-11-29': "45"}}
+    ]  %>
 
   <br>
+  <p><%= @daily_activity_hours%></p>
     <div class ="pie_totals">Average Hours Per Activity Per Day</div>
-    <%== pie_chart @daily_activity_hours, donut: true %>
+    <%= pie_chart [{name:'Do', data:'46'}], donut: true %>
     
   <br>
     <div class ="hours_daily">Average Hours Used Per Day</div>
-    <%== pie_chart @hours_used, donut: true %> 
+    <%= pie_chart @hours_used, donut: true %> 
   <br>
       <div class="total_minutes">You have an average of <strong><%=@average_minutes_remaining%></strong> minutes remaining each day.</div>
       <div class="total_minutes">That is <strong><%=@hours_remaining%></strong> hours.  Go get after it!</div>
 
   <br>
     <div class ="pie_totals">Total Minutes Spent on Each Logged Activity</div>
-    <%== column_chart @total_minutes, donut: true %>
+    <%= column_chart @total_minutes, donut: true %>

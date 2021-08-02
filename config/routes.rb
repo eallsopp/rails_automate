@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get '/', to: redirect('/homepage');
 
   post '/login', to: 'session#new'
-  get '/timesheet', to: 'session#logged_in'
+  get '/timesheet/:username', to: 'session#valid_login'
   get '/logout', to: 'session#destroy'
 
   get '/homepage', to: 'application#index'
@@ -16,13 +16,15 @@ Rails.application.routes.draw do
   get '/sample', to: 'application#sample'
 
   get '/new_entry', to: 'application#new_entry'
-  get '/edit_post/:id', to: 'application#edit_post'
+  get '/edit_post', to:'application#edit_post'
+  get '/edit_post/:id/:date', to: 'application#edit_post'
+  get '/delete_post', to: 'application#destroy'
   
   get '/register', to: 'application#register'
   post '/register', to: 'application#new_user'
 
   post '/add_entry', to: 'application#add_entry'
-  post '/edit_post/:date', to: 'application#update_entry'
+  post '/edit_post/:id/:date', to: 'application#update_entry'
   post '/delete_post', to: 'application#destroy'
     #add a route for a given post above
 

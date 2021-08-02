@@ -3,8 +3,10 @@
 <h3><% if flash[:message] %>
   <%= flash[:message] %>
 <% end %></h3>
+
   <h1>How do you spend your time?</h1>
-  <a href='/timesheet'>Back to All Posts</a>
+  <a href='/sample'>Back to All Posts</a> <!--modify for login, impermanent href, shold be dictated by session controller-->
+
   <body>
   <fieldset class = "add">
     <form action='/add_entry' method='post'> <!--this will be the route path for rails while the 'name' property below-->
